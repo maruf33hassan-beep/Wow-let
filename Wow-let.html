@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#E9E7FF">
+<title>Wow-let - iOS Glassy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Hind Siliguri',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(180deg,#DCE2FF 0%,#E9E0FF 38%,#D8F5E5 68%,#FFF0C2 100%);background-attachment:fixed;min-height:100vh;padding-bottom:118px;color:#000}
+#splash{position:fixed;inset:0;background:linear-gradient(180deg,#DCE2FF,#E9E0FF);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#splash .logoGlass{width:96px;height:96px;border-radius:26px;background:rgba(255,255,255,.75);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.95);box-shadow:0 16px 32px rgba(0,0,0,.14);overflow:hidden}
+#splash h1{font-size:33px;margin-top:14px;font-weight:800;letter-spacing:-.5px}
+#splash h1 span{color:#007AFF}
+#splash p{font-size:13px;color:#6B6B70;margin-top:5px}
+#splash .load{width:140px;height:5px;background:rgba(255,255,255,.8);border-radius:20px;margin-top:18px;overflow:hidden}
+#splash .load div{height:100%;width:0%;background:#007AFF;transition:width .2s}
+.glass{background:rgba(255,255,255,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);box-shadow:0 8px 28px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,.9)}
+.glassDark{background:rgba(10,10,20,.88);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.15);color:#fff;box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.iosHeader{padding:14px 20px 4px 20px}
+.iosHeader .topRow{display:flex;justify-content:space-between;align-items:center}
+.iosHeader .brand{display:flex;gap:11px;align-items:center}
+.iosHeader .brandLogo{width:42px;height:42px;border-radius:13px;overflow:hidden;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.10)}
+.iosHeader h2{font-size:17px;font-weight:700;line-height:1}
+.iosHeader p{font-size:11px;color:#6B6B70;margin-top:2px}
+.iosHeader .bell{width:36px;height:36px;background:rgba(255,255,255,.75);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;position:relative}
+.iosHeader .bell i{position:absolute;top:9px;right:10px;width:7px;height:7px;background:#FF3B30;border-radius:50%}
+.iosHeader .largeTitle{font-size:34px;font-weight:800;letter-spacing:-.8px;margin-top:14px}
+.iosHeader .largeTitle span{color:#007AFF}
+.iosHeader .sub{font-size:13px;color:#6B6B70;margin-top:2px}
+.heroCard{margin:12px 16px 0 16px;padding:18px;border-radius:26px}
+.heroCard .lbl{font-size:11px;color:#6B6B70;font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+.heroCard .amt{font-size:34px;font-weight:800;letter-spacing:-.8px;margin:6px 0}
+.heroCard .sub{font-size:12px;color:#6B6B70}
+.heroCard .scoreRow{display:flex;gap:10px;margin-top:14px}
+.heroCard .scoreBox{flex:1;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);border-radius:16px;padding:11px;text-align:center}
+.heroCard .scoreBox b{font-size:20px;display:block}
+.heroCard .scoreBox span{font-size:11px;color:#6B6B70}
+.heroCard .scoreBox.blue{background:#007AFF;color:#fff;border-color:rgba(255,255,255,.3)}
+.heroCard .scoreBox.blue span{color:rgba(255,255,255,.85)}
+.quickRow{display:flex;gap:10px;margin-top:14px}
+.quickRow div{flex:1;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);border-radius:18px;padding:11px 4px;text-align:center}
+.quickRow div span{font-size:20px;display:block}
+.quickRow div b{font-size:11px;display:block;margin-top:4px}
+.quickRow div small{font-size:10px;color:#6B6B70}
+.wrap{padding:0 16px}
+.card{padding:16px;border-radius:24px;margin-top:12px}
+label{font-size:15px;font-weight:600}
+.hint{font-size:13px;color:#6B6B70;line-height:1.5;margin-top:4px}
+input,select{width:100%;padding:14px;border:none;background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.95);border-radius:14px;margin:10px 0;font-size:17px;outline:none}
+button{width:100%;background:#007AFF;color:#fff;border:none;padding:15px;border-radius:16px;font-weight:700;font-size:16px;margin-top:8px;cursor:pointer}
+button.lime{background:#000;color:#fff}
+button.red{background:#FF3B30}
+button.outline{background:rgba(255,255,255,.75);color:#007AFF;border:1px solid rgba(255,255,255,.95)}
+button.green{background:#34C759}
+button.glassBtn{background:rgba(255,255,255,.75);color:#000;border:1px solid rgba(255,255,255,.95)}
+.box{padding:13px;border-radius:16px;margin:8px 0;font-size:14px;line-height:1.7;white-space:pre-wrap}
+.greenBox{background:rgba(232,253,240,.9);border:1px solid rgba(255,255,255,.9)}
+.blueBox{background:rgba(234,242,255,.9);border:1px solid rgba(255,255,255,.9)}
+.yellowBox{background:rgba(255,249,219,.9);border:1px solid rgba(255,255,255,.9)}
+.redBox{background:rgba(255,236,236,.9);border:1px solid rgba(255,255,255,.9)}
+.purpleBox{background:rgba(242,238,255,.9);border:1px solid rgba(255,255,255,.9)}
+.darkBox{background:rgba(10,10,20,.88);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.darkBox b{color:#64D2FF}
+.small{font-size:13px;color:#6B6B70;line-height:1.6}
+.hidden{display:none}
+.big{font-size:30px;font-weight:800;text-align:center;letter-spacing:-.5px}
+.center{text-align:center}
+.bar{height:8px;background:rgba(255,255,255,.7);border-radius:20px;overflow:hidden;margin:10px 0}
+.bar-fill{height:100%;transition:width .4s}
+.bottom{position:fixed;bottom:12px;left:12px;right:12px;background:rgba(255,255,255,.78);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);display:flex;align-items:flex-end;padding:8px 8px 10px 8px;border:1px solid rgba(255,255,255,.95);border-radius:28px;z-index:20;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.bottom div{flex:1;text-align:center;color:#8A8A8E;font-size:10px;font-weight:600;padding:6px 2px;border-radius:14px}
+.bottom div span{display:block;font-size:21px;margin-bottom:2px}
+.bottom div.active{color:#007AFF;background:rgba(0,122,255,.08)}
+.bottom .centerBtn{flex:1.1}
+.bottom .centerBtn .fab{width:56px;height:56px;border-radius:50%;overflow:hidden;margin:-28px auto 2px auto;box-shadow:0 10px 22px rgba(0,0,0,.18);border:4px solid rgba(255,255,255,.95);background:#000}
+.stepTag{display:inline-block;background:rgba(0,122,255,.10);color:#007AFF;padding:5px 11px;border-radius:20px;font-size:12px;font-weight:700}
+.example{background:rgba(255,255,255,.65);padding:10px;border-radius:14px;font-size:13px;margin-top:8px;line-height:1.6;border:1px solid rgba(255,255,255,.9)}
+.optBtn{background:rgba(255,255,255,.65);border:2px solid transparent;padding:13px;border-radius:16px;margin-top:8px;text-align:left;font-size:15px;font-weight:600}
+.optBtn.selected{background:#fff;border-color:#007AFF;box-shadow:0 4px 14px rgba(0,122,255,.15)}
+.twoBtn{display:flex;gap:10px}
+.twoBtn button{flex:1}
+.fadeIn{animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.kpi{display:flex;gap:10px;margin-top:12px}
+.kpi div{flex:1;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);border-radius:16px;padding:10px;text-align:center}
+.kpi div b{display:block;font-size:16px}
+.kpi div span{font-size:11px;color:#6B6B70}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-green{background:#D1FADF;color:#0E7A3D}
+.error{color:#FF3B30;font-size:13px;margin-top:4px;display:none}
+.summaryRow{display:flex;justify-content:space-between;padding:11px 0;border-bottom:.5px solid rgba(0,0,0,.08);font-size:14px}
+.summaryRow:last-child{border:none}
+.wowBanner{background:rgba(0,0,0,.86);color:#fff;padding:16px;border-radius:22px;margin-top:12px;border:1px solid rgba(255,255,255,.15)}
+.wowBanner b{font-size:17px}
+.wowBanner b span{color:#64D2FF}
+.wowBanner p{font-size:12px;opacity:.85;margin-top:6px;line-height:1.6}
+.yearSegmented{display:flex;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);border-radius:14px;padding:3px;margin-top:10px;overflow-x:auto}
+.yearSegmented div{flex:1;white-space:nowrap;padding:9px 10px;text-align:center;border-radius:11px;font-weight:700;font-size:13px;cursor:pointer}
+.yearSegmented div.selected{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.donutWrap{display:flex;gap:14px;align-items:center;margin-top:10px}
+.donut{width:92px;height:92px;border-radius:50%;background:conic-gradient(#000 0 60%, #FF9500 60% 80%, #34C759 80% 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.donutInner{width:62px;height:62px;background:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donutInner b{font-size:16px}
+.donutInner span{font-size:9px;color:#6B6B70}
+.legend{font-size:13px;line-height:1.9}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.storeCard{display:flex;gap:12px;align-items:center}
+.storeCard .appIcon{width:60px;height:60px;border-radius:15px;overflow:hidden;flex-shrink:0;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+.storeMeta{flex:1}
+.storeMeta b{font-size:15px}
+.storeMeta p{font-size:12px;color:#6B6B70;margin-top:2px}
+.ratingRow{display:flex;gap:0;margin-top:12px;border-top:.5px solid rgba(0,0,0,.08);padding-top:12px}
+.ratingRow div{flex:1;text-align:center;border-right:.5px solid rgba(0,0,0,.08)}
+.ratingRow div:last-child{border:none}
+.ratingRow div b{font-size:15px;display:block}
+.ratingRow div span{font-size:11px;color:#6B6B70}
+.chipRow{display:flex;gap:8px;overflow-x:auto;padding:6px 0}
+.chipRow span{white-space:nowrap;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);padding:8px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.chipRow span.active{background:#000;color:#fff}
+.logoSvg{width:100%;height:100%;display:block}
+.iosSectionTitle{font-size:20px;font-weight:800;letter-spacing:-.3px;margin:18px 4px 2px 4px}
+.iosSectionSub{font-size:13px;color:#6B6B70;margin:0 4px 6px 4px}
+</style>
+</head>
+<body>
+
+<div id="splash">
+<div class="logoGlass"><svg class="logoSvg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#000"/><text x="50" y="68" text-anchor="middle" font-size="52" font-weight="900" fill="#fff" font-family="Arial">W</text><circle cx="74" cy="26" r="10" fill="#FFCC00"/><text x="74" y="30" text-anchor="middle" font-size="10" fill="#000">৳</text></svg></div>
+<h1>Wow<span>-let</span></h1><p>টাকা বাঁচলেই Wow • iOS Glassy</p><div class="load"><div id="loadBar"></div></div></div>
+
+<div class="iosHeader">
+<div class="topRow"><div class="brand"><div class="brandLogo"><svg class="logoSvg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#000"/><text x="50" y="68" text-anchor="middle" font-size="52" font-weight="900" fill="#fff" font-family="Arial">W</text><circle cx="74" cy="26" r="9" fill="#FFCC00"/><text x="74" y="30" text-anchor="middle" font-size="9" fill="#000">৳</text></svg></div><div><h2>Wow-let</h2><p>Smart Budget • Glassy</p></div></div><div class="bell">🔔<i></i></div></div>
+<div class="largeTitle">Wow<span>-let</span></div>
+<div class="sub">আপনার টাকা, আপনার নিয়ন্ত্রণে • টার্গেট <span id="heroYear">২০৩১</span></div>
+</div>
+
+<div class="heroCard glass">
+<div class="lbl">এই মাসে মোট টাকা</div>
+<div class="amt" id="totalAmt">০ টাকা</div>
+<div class="sub" id="totalSub">সেটআপ করলে এখানে হিসাব দেখাবে</div>
+<div class="scoreRow"><div class="scoreBox blue"><b id="wowScore">0</b><span>Wow Score / 100</span></div><div class="scoreBox"><b id="wowStreak">0 দিন</b><span>বাঁচানোর স্ট্রিক</span></div></div>
+<div class="quickRow">
+<div onclick="showPage('setup', document.querySelectorAll('.bottom div')[1])"><span>✎</span><b>সেটআপ</b><small>১ মিনিট</small></div>
+<div onclick="showPage('dash', document.querySelectorAll('.bottom div')[2])"><span>◉</span><b>স্মার্ট চেক</b><small>কেনার আগে</small></div>
+<div onclick="showPage('lock', document.querySelectorAll('.bottom div')[3])"><span>◷</span><b>২৪ঘ লক</b><small>ইমপালস</small></div>
+<div onclick="showPage('hist', document.querySelectorAll('.bottom div')[4])"><span>★</span><b>Wow</b><small id="quickWow">0 পয়েন্ট</small></div>
+</div>
+<div class="kpi">
+<div><b id="kpiNeed">-</b><span>দরকার</span></div>
+<div><b id="kpiWant">-</b><span>শখ</span></div>
+<div><b id="kpiFuture">-</b><span>ভবিষ্যৎ</span></div>
+</div>
+</div>
+
+<div class="wrap" id="pageLearn">
+<div class="iosSectionTitle">App Store Preview</div>
+<div class="iosSectionSub">iOS Glassy - Liquid Glass style</div>
+<div class="card glass">
+<div class="storeCard"><div class="appIcon"><svg class="logoSvg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#000"/><text x="50" y="68" text-anchor="middle" font-size="52" font-weight="900" fill="#fff" font-family="Arial">W</text><circle cx="74" cy="26" r="10" fill="#FFCC00"/><text x="74" y="30" text-anchor="middle" font-size="10" fill="#000">৳</text></svg></div><div class="storeMeta"><b>Wow-let - Smart Budget</b><p>Wow-let Team • Finance • No Ads</p></div><button style="width:auto;padding:9px 18px;margin:0;border-radius:20px" onclick="startWizard()">GET</button></div>
+<div class="ratingRow"><div><b>4.9 ★</b><span>12K reviews</span></div><div><b>10K+</b><span>Downloads</span></div><div><b>4.8 MB</b><span>Size</span></div><div><b>3+</b><span>Age</span></div></div>
+</div>
+<div class="chipRow"><span class="active">সব</span><span>বাজেট</span><span>সেভিং</span><span>ফিউচার সেলফ</span><span>স্মার্ট লক</span></div>
+<div class="wowBanner"><b>Wow-let <span>কী করে?</span></b><p>সাধারণ অ্যাপ হিসাব রাখে। Wow-let টাকা বাঁচায়। খরচের আগে আপনাকে থামায়, আর বুঝিয়ে দেয় - এই জিনিসটা কিনলে আসলে কত টাকা আর কত ঘণ্টা জীবন নষ্ট হবে।</p></div>
+<div class="card glass"><h3>কেন এটা Glassy + ইউনিক?</h3><p class="small">১. দামকে টাকায় না, জীবনের ঘণ্টায় দেখায়<br>২. লস দেখায় - "আপনি হারাবেন" বলে<br>৩. Future Year আপনি নিজে বাছবেন<br>৪. প্রতিটা বাঁচানো = Wow পয়েন্ট + Wow Score বাড়বে<br>৫. Glassy কার্ড - পেছনের গ্রেডিয়েন্ট হালকা দেখা যায়</p><div class="example"><b>উদাহরণ:</b> ২,৫০০ টাকার হেডফোন না কিনলে ২০৩১ সালে বাঁচবে ৪,৩০০ টাকা, ২০৪০ সালে বাঁচবে ১২,০০০ টাকার বেশি।</div></div>
+<div class="card glass"><h3>৩টি বাক্স - ডোনাট চার্টে দেখুন</h3><div class="donutWrap"><div class="donut"><div class="donutInner"><b>১০০%</b><span>আপনার টাকা</span></div></div><div class="legend"><span class="dot" style="background:#000"></span>দরকার - ৬০%<br><span class="dot" style="background:#FF9500"></span>শখ - ২০%<br><span class="dot" style="background:#34C759"></span>ভবিষ্যৎ - ২০%</div></div></div>
+<button onclick="startWizard()">শুরু করি →</button>
+<button class="glassBtn" onclick="demoMode()">ডেমো দেখি - কিছু লিখবো না</button>
+</div>
+
+<div class="wrap hidden" id="pageSetup">
+<div class="card glass">
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="stepTag" id="stepTag">ধাপ ১ / ৬</span><span class="small" id="stepPct">১৭% সম্পন্ন</span></div>
+<div class="bar"><div class="bar-fill" id="wizardBar" style="width:17%;background:#007AFF"></div></div>
+<div id="wizardBox" class="fadeIn"></div>
+<div class="error" id="wizardError">এই ঘরটা পূরণ করুন</div>
+<div class="twoBtn">
+<button class="glassBtn" id="backBtn" onclick="prevStep()">← পেছনে</button>
+<button id="nextBtn" onclick="nextStep()">পরেরটা →</button>
+</div>
+</div>
+</div>
+
+<div class="wrap hidden" id="pageDash">
+<div class="iosSectionTitle">আমার ওয়ালেট</div>
+<div class="iosSectionSub">আজকের বাজেট ও ভবিষ্যৎ</div>
+<div class="card glass">
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="small"><b>আজকের শখের বাজেট</b></span><span class="badge badge-green" id="todayBadge">ভালো অবস্থায়</span></div>
+<div class="big" id="todayBudget">০ টাকা</div>
+<p class="center small" id="todayInfo"></p>
+<div class="bar"><div class="bar-fill" id="budgetBar" style="width:100%;background:#007AFF"></div></div>
+<div id="walletOut"></div>
+<div class="donutWrap"><div class="donut"><div class="donutInner"><b>৬০%</b><span>দরকার</span></div></div><div class="legend" id="donutLegend"></div></div>
+</div>
+<div class="card glass">
+<div style="display:flex;justify-content:space-between;align-items:center"><h3>ভবিষ্যৎ আপনি - <span id="futureYearTitle">২০৩১</span> সাল</h3></div>
+<p class="small" style="margin-top:6px">নিচে থেকে সাল বাছুন - iOS Glass Segmented</p>
+<div class="yearSegmented" id="yearSegmented"></div>
+<div class="box purpleBox" id="futureSelfBox" style="margin-top:12px"></div>
+</div>
+<div class="card glass">
+<h3>স্মার্ট চেক - কিছু কিনতে চান?</h3>
+<p class="small">কেনার আগে এখানে লিখুন। কিনবেন কি কিনবেন না, Wow-let বুঝিয়ে দিবে।</p>
+<label>কী কিনতে চান?</label><input id="wantItem" placeholder="যেমন: হেডফোন">
+<label>দাম কত?</label><input id="wantPrice" type="number" placeholder="যেমন: 2500">
+<button class="red" onclick="impulseCheck()">স্মার্ট চেক করুন</button>
+<div id="impulseOut"></div>
+</div>
+<div class="card glass">
+<h3>আমার নিয়ম</h3>
+<p class="small">একটা নিয়ম বানান। যেমন: "যদি টাকা পাই, তাহলে প্রথমে ১,০০০ টাকা ভবিষ্যৎ বাক্সে রাখবো"</p>
+<input id="ifThen" placeholder="আপনার নিয়ম লিখুন...">
+<button onclick="saveIfThen()">এই নিয়ম লক করুন</button>
+<div id="ifThenOut"></div>
+</div>
+</div>
+
+<div class="wrap hidden" id="pageLock">
+<div class="card glass"><h3 class="center">২৪ ঘণ্টার স্মার্ট লক</h3><p class="center small">মাথা গরম থাকলে কেনা যাবে না। ঠান্ডা হলে কিনবেন।</p><div id="lockOut"></div><button class="green" onclick="cancelLock()">আমি কিনবো না - টাকা বাঁচালাম - Wow!</button><button class="glassBtn" onclick="showPage('dash')">ড্যাশবোর্ডে যান</button></div>
+<div class="card glass"><h3>কত টাকা বাঁচলো?</h3><div id="lossOut"></div></div>
+</div>
+
+<div class="wrap hidden" id="pageHist">
+<div class="card glass"><h3>আপনার Wow মোমেন্টস + রিপোর্ট</h3><p class="small">যতবার না কিনে টাকা বাঁচিয়েছেন, ততবার এখানে জমা হবে।</p><div id="histOut">এখনো কোনো Wow মোমেন্ট নাই।</div><div id="reportOut"></div><button class="glassBtn" onclick="clearHist()">সব মুছে ফেলুন</button></div>
+<div class="card glass"><h3>Wow-let কেন কাজ করে?</h3><p class="small">১. লস দেখলে মাথা কষ্ট পায় - কাহনেম্যান (নোবেল)<br>২. ভবিষ্যতের নিজেকে আপন মনে হয় - হার্শফিল্ড, UCLA<br>৩. নিয়ম বানালে মাথা অটো মানে - গলউইটজার<br>৪. সেভিং ডিফল্ট হলে জমে - থ্যালার (নোবেল)<br>৫. দামকে ঘণ্টায় দেখলে কষ্ট লাগে - অ্যারিয়েলি</p></div>
+</div>
+
+<div class="bottom">
+<div class="active" onclick="showPage('learn',this)"><span>⌂</span>হোম</div>
+<div onclick="showPage('setup',this)"><span>✎</span>সেটআপ</div>
+<div class="centerBtn" onclick="showPage('dash', document.querySelectorAll('.bottom div')[2])"><div class="fab"><svg class="logoSvg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#000"/><text x="50" y="68" text-anchor="middle" font-size="52" font-weight="900" fill="#fff" font-family="Arial">W</text></svg></div>ওয়ালেট</div>
+<div onclick="showPage('lock',this)"><span>◷</span>লক</div>
+<div onclick="showPage('hist',this)"><span>★</span>Wow</div>
+</div>
+
+<script>
+let splashP=0;
+let st=setInterval(()=>{ splashP+=14; document.getElementById('loadBar').style.width=splashP+'%'; if(splashP>=100){ clearInterval(st); document.getElementById('splash').style.display='none'; } },110);
+let DATA = JSON.parse(localStorage.getItem('wowlet')||'{}');
+let WINS = JSON.parse(localStorage.getItem('wowlet_wins')||'[]');
+let LOCKED = JSON.parse(localStorage.getItem('wowlet_lock')||'null');
+let CURRENT_YEAR = 2026;
+let YEARS = [2027,2028,2029,2030,2031,2035,2040];
+function fmt(n){ return Math.round(n).toLocaleString('bn-BD'); }
+function getYearsDiff(){ let fy = parseInt(DATA.futureYear||2031); return Math.max(1, fy - CURRENT_YEAR); }
+function getFutureLoss(price){ let diff=getYearsDiff(); return Math.round(price*Math.pow(1.12,diff)); }
+function getFutureAge(){ let age=parseInt(DATA.age||18); let diff=getYearsDiff(); return age+diff; }
+function getWowScore(){ let base=20; if(DATA.income) base+=20; base+=Math.min(40, WINS.length*8); if(DATA.saved>0) base+=10; return Math.min(100, base); }
+function updateTop(){
+  document.getElementById('wowScore').innerText=getWowScore();
+  document.getElementById('wowStreak').innerText=WINS.length+' দিন';
+  document.getElementById('quickWow').innerText=WINS.length+' পয়েন্ট';
+  document.getElementById('heroYear').innerText=DATA.futureYear||2031;
+  if(!DATA.income){ document.getElementById('totalAmt').innerText='০ টাকা'; document.getElementById('totalSub').innerText='সেটআপ করলে এখানে হিসাব দেখাবে'; return; }
+  document.getElementById('totalAmt').innerText=fmt(DATA.income)+' টাকা';
+  document.getElementById('totalSub').innerText='মাসিক ইনকাম • স্বপ্ন: '+DATA.goal+' • টার্গেট সাল: '+(DATA.futureYear||2031)+' • Wow পয়েন্ট: '+WINS.length;
+  document.getElementById('kpiNeed').innerText=fmt(DATA.need);
+  document.getElementById('kpiWant').innerText=fmt(DATA.want);
+  document.getElementById('kpiFuture').innerText=fmt(DATA.future);
+}
+updateTop();
+function renderYearSegmented(){
+  let el=document.getElementById('yearSegmented');
+  if(!el) return;
+  el.innerHTML=YEARS.map(y=>`<div class="${(DATA.futureYear||2031)==y?'selected':''}" onclick="changeYear(${y})">${y}</div>`).join('');
+}
+let currentStep=0;
+let wizardData={ income:DATA.income||'', age:DATA.age||18, goal:DATA.goal||'ফোন / বাইক কিনবো', weak:DATA.weak||'ফুডপান্ডা / বাইরে খাওয়া', futureYear:DATA.futureYear||2031 };
+let goalOptions=['ইমার্জেন্সি ফান্ড - ৩০,০০০ টাকা','ফোন / বাইক কিনবো','বিদেশ যাবো','ব্যবসা শুরু করবো','মা-বাবাকে উপহার দিবো'];
+function startWizard(){ currentStep=0; showPage('setup', document.querySelectorAll('.bottom div')[1]); renderStep(); }
+function renderStep(){
+  let box=document.getElementById('wizardBox');
+  let tag=document.getElementById('stepTag');
+  let bar=document.getElementById('wizardBar');
+  let pct=document.getElementById('stepPct');
+  let backBtn=document.getElementById('backBtn');
+  let nextBtn=document.getElementById('nextBtn');
+  document.getElementById('wizardError').style.display='none';
+  tag.innerText='ধাপ '+(currentStep+1)+' / ৬';
+  pct.innerText=Math.round((currentStep+1)/6*100)+'% সম্পন্ন';
+  bar.style.width=((currentStep+1)/6*100)+'%';
+  backBtn.style.visibility=currentStep===0?'hidden':'visible';
+  nextBtn.innerText=currentStep===5?'আমার Wow-let বানান ✓':'পরেরটা →';
+  box.classList.remove('fadeIn'); void box.offsetWidth; box.classList.add('fadeIn');
+  if(currentStep===0){
+    box.innerHTML=`<label>১. মাসে কত টাকা পান?</label><p class="hint">এই তথ্য দিয়েই আপনার ৩টি বাক্স বানানো হবে।</p><input id="wIncome" type="number" inputmode="numeric" placeholder="যেমন: 10000" value="${wizardData.income}"><div class="example">স্টুডেন্ট হলে হাত খরচ লিখুন। চাকরি করলে বেতন লিখুন।</div>`;
+    setTimeout(()=>document.getElementById('wIncome').focus(),120);
+  }
+  if(currentStep===1){
+    box.innerHTML=`<label>২. আপনার বয়স কত?</label><p class="hint">বয়স দিলে আমরা বলতে পারবো আপনার বাছা সালে আপনার বয়স কত হবে।</p><input id="wAge" type="number" inputmode="numeric" placeholder="যেমন: 18" value="${wizardData.age}"><div class="example">যেমন আপনি এখন ১৮, আর ২০৩১ বাছলে তখন আপনার বয়স হবে ২৩।</div>`;
+  }
+  if(currentStep===2){
+    let hr=wizardData.income?Math.round(wizardData.income/160):62;
+    box.innerHTML=`<label>৩. ১ ঘণ্টা কাজ করলে কত টাকা পান?</label><p class="hint">এটা দিয়ে আমরা বুঝবো আপনি একটা জিনিসের জন্য কত ঘণ্টা জীবন দিচ্ছেন।</p><input id="wHour" type="number" inputmode="numeric" value="${hr}"><div class="example">আপনি লিখেছেন মাসে <b>${wizardData.income||0} টাকা</b> পান।<br>হিসাব: ${wizardData.income||0} ÷ ১৬০ = <b>${hr} টাকা</b>।</div>`;
+  }
+  if(currentStep===3){
+    box.innerHTML=`<label>৪. আপনার বড় স্বপ্ন কী?</label><p class="hint">একটা বেছে নিন। এই স্বপ্নের জন্যই টাকা জমাবেন।</p>`+goalOptions.map(o=>`<div class="optBtn ${wizardData.goal===o?'selected':''}" onclick="selectGoal(this,'${o}')">${o}</div>`).join('');
+  }
+  if(currentStep===4){
+    box.innerHTML=`<label>৫. কত সালের নিজেকে দেখতে চান?</label><p class="hint">iOS Glass Segmented থেকে একটা সাল বাছুন। যত দূরের সাল বাছবেন, হিসাব তত বড় হবে।</p><div class="yearSegmented">${YEARS.map(y=>`<div class="${wizardData.futureYear==y?'selected':''}" onclick="selectYear(this,${y})">${y}</div>`).join('')}</div><div class="example" id="yearExample"></div>`;
+    updateYearExample();
+  }
+  if(currentStep===5){
+    let income=parseFloat(wizardData.income)||0;
+    let need=Math.round(income*0.60), want=Math.round(income*0.20), future=Math.round(income*0.20);
+    let diff=Math.max(1, wizardData.futureYear - CURRENT_YEAR);
+    let fAge=parseInt(wizardData.age||18)+diff;
+    box.innerHTML=`<label>৬. দেখে নিন, সব ঠিক আছে কি না?</label><p class="hint">ভুল থাকলে পেছনে গিয়ে ঠিক করুন।</p><div style="margin-top:10px"><div class="summaryRow"><span>মাসে পান</span><b>${fmt(income)} টাকা</b></div><div class="summaryRow"><span>বয়স এখন</span><b>${wizardData.age}</b></div><div class="summaryRow"><span>টার্গেট সাল</span><b>${wizardData.futureYear} (${diff} বছর পর)</b></div><div class="summaryRow"><span>তখন বয়স হবে</span><b>${fAge}</b></div><div class="summaryRow"><span>স্বপ্ন</span><b>${wizardData.goal}</b></div></div><div class="box greenBox"><b>আপনার Wow-let এর ৩টি বাক্স হবে:</b><br>১. দরকার: ${fmt(need)} টাকা<br>২. শখ: ${fmt(want)} টাকা<br>৩. ভবিষ্যৎ: ${fmt(future)} টাকা</div>`;
+  }
+}
+function selectGoal(el,val){ wizardData.goal=val; document.querySelectorAll('.optBtn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); }
+function selectYear(el,val){ wizardData.futureYear=val; document.querySelectorAll('.yearSegmented div').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); updateYearExample(); }
+function updateYearExample(){
+  let diff=Math.max(1, wizardData.futureYear - CURRENT_YEAR);
+  let fAge=parseInt(wizardData.age||18)+diff;
+  let ex=document.getElementById('yearExample');
+  if(!ex) return;
+  let loss=Math.round(2500*Math.pow(1.12,diff));
+  ex.innerHTML=`আপনি <b>${wizardData.futureYear}</b> বাছলেন। তখন আপনার বয়স হবে <b>${fAge}</b>।<br>উদাহরণ: ২,৫০০ টাকার হেডফোন না কিনলে ${wizardData.futureYear} সালে বাঁচবে <b>${fmt(loss)} টাকা</b>।`;
+}
+function showError(msg){ let e=document.getElementById('wizardError'); e.innerText=msg; e.style.display='block'; }
+function prevStep(){ if(currentStep>0){ currentStep--; renderStep(); } }
+function nextStep(){
+  if(currentStep===0){
+    let v=document.getElementById('wIncome').value;
+    if(!v||parseFloat(v)<=0) return showError('আগে মাসে কত টাকা পান, সেটা লিখুন। যেমন: 10000');
+    wizardData.income=v;
+  }
+  if(currentStep===1){
+    let v=document.getElementById('wAge').value;
+    if(!v||parseFloat(v)<=0) return showError('আপনার বয়স লিখুন। যেমন: 18');
+    wizardData.age=v;
+  }
+  if(currentStep===2){
+    let v=document.getElementById('wHour').value;
+    if(!v) return showError('১ ঘণ্টার টাকা লিখুন');
+    wizardData.hourRate=v;
+  }
+  if(currentStep<5){ currentStep++; renderStep(); return; }
+  let income=parseFloat(wizardData.income)||0;
+  let hourRate=parseFloat(wizardData.hourRate)||Math.round(income/160);
+  let need=Math.round(income*0.60), want=Math.round(income*0.20), future=Math.round(income*0.20);
+  DATA={income,hourRate,age:wizardData.age,goal:wizardData.goal,weak:wizardData.weak||'ফুডপান্ডা / বাইরে খাওয়া',futureYear:wizardData.futureYear,need,want,future,spentToday:0,saved:0};
+  localStorage.setItem('wowlet',JSON.stringify(DATA));
+  updateTop();
+  alert('অভিনন্দন। আপনার Wow-let তৈরি হয়ে গেছে। টার্গেট সাল: '+wizardData.futureYear);
+  showPage('dash', document.querySelectorAll('.bottom div')[2]);
+}
+function changeYear(val){
+  DATA.futureYear=parseInt(val);
+  localStorage.setItem('wowlet',JSON.stringify(DATA));
+  wizardData.futureYear=parseInt(val);
+  updateTop(); renderDash(); renderYearSegmented();
+}
+function demoMode(){
+  wizardData={income:10000,age:18,hourRate:62,goal:'ফোন / বাইক কিনবো',weak:'ফুডপান্ডা / বাইরে খাওয়া',futureYear:2031};
+  DATA={income:10000,hourRate:62,age:18,goal:wizardData.goal,weak:wizardData.weak,futureYear:2031,need:6000,want:2000,future:2000,spentToday:0,saved:0};
+  localStorage.setItem('wowlet',JSON.stringify(DATA)); updateTop();
+  showPage('dash', document.querySelectorAll('.bottom div')[2]);
+  setTimeout(()=>{ document.getElementById('wantItem').value='হেডফোন'; document.getElementById('wantPrice').value=2500; impulseCheck(); },400);
+}
+function showPage(p,el){
+  document.querySelectorAll('.bottom div').forEach(d=>d.classList.remove('active'));
+  if(el) el.classList.add('active');
+  ['learn','setup','dash','lock','hist'].forEach(x=> document.getElementById('page'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hidden', x!==p));
+  if(p==='dash') renderDash();
+  if(p==='hist') renderHist();
+  if(p==='lock') renderLock();
+  if(p==='setup' && !document.getElementById('wizardBox').innerHTML) renderStep();
+  window.scrollTo(0,0);
+}
+function renderDash(){
+  if(!DATA.income){ startWizard(); return; }
+  document.getElementById('futureYearTitle').innerText=DATA.futureYear||2031;
+  renderYearSegmented();
+  let dailyWant=Math.round(DATA.want/30);
+  let left=Math.max(0, dailyWant - (DATA.spentToday||0));
+  document.getElementById('todayBudget').innerText=fmt(left)+' টাকা';
+  document.getElementById('todayInfo').innerText='আজকে শখের জন্য বাকি: '+fmt(left)+' টাকা। এক দিনের শখের বাজেট: '+fmt(dailyWant)+' টাকা।';
+  let pct=Math.max(0,(left/dailyWant*100));
+  document.getElementById('budgetBar').style.width=pct+'%';
+  document.getElementById('budgetBar').style.background=pct>50?'#007AFF':pct>0?'#FF9500':'#FF3B30';
+  document.getElementById('todayBadge').innerText=pct>50?'ভালো অবস্থায়':pct>0?'সাবধান':'শেষ হয়ে গেছে';
+  document.getElementById('walletOut').innerHTML=`<div class="box blueBox"><b>আপনার Wow-let এর ৩টি বাক্স:</b><br>১. দরকার (৬০%): ${fmt(DATA.need)} টাকা<br>২. শখ (২০%): ${fmt(DATA.want)} টাকা<br>৩. ভবিষ্যৎ (২০%): ${fmt(DATA.future)} টাকা - ${DATA.goal}</div>`;
+  document.getElementById('donutLegend').innerHTML=`<span class="dot" style="background:#000"></span>দরকার - ${fmt(DATA.need)} টাকা<br><span class="dot" style="background:#FF9500"></span>শখ - ${fmt(DATA.want)} টাকা<br><span class="dot" style="background:#34C759"></span>ভবিষ্যৎ - ${fmt(DATA.future)} টাকা`;
+  let fAge=getFutureAge();
+  let diff=getYearsDiff();
+  document.getElementById('futureSelfBox').innerHTML=`${DATA.futureYear} সালে আপনি ${DATA.goal} করতে চান। তখন আপনার বয়স হবে ${fAge} (${diff} বছর পর)।<br>আজকে যদি ৫০০ টাকা বাঁচান, ${DATA.futureYear} সালে সেটা হবে প্রায় ${fmt(Math.round(500*Math.pow(1.12,diff)))} টাকা।<br><br>ভবিষ্যতের আপনি বলছে: "আমাকে ভুলো না। আমি তুমি, ${DATA.futureYear} সালে।"`;
+  let it=localStorage.getItem('wowlet_ifthen');
+  document.getElementById('ifThenOut').innerHTML=it?`<div class="box greenBox"><b>আপনার লক করা নিয়ম:</b><br>${it}</div>`:'';
+}
+function impulseCheck(){
+  let item=document.getElementById('wantItem').value.trim()||'এই জিনিস';
+  let price=parseFloat(document.getElementById('wantPrice').value)||0;
+  if(!price) return alert('আগে দাম লিখুন');
+  if(!DATA.income){ alert('আগে সেটআপ করুন'); startWizard(); return; }
+  let hours=(price/DATA.hourRate).toFixed(1);
+  let futureLoss=getFutureLoss(price);
+  let diff=getYearsDiff();
+  let isImpulse=price>(DATA.want*0.3);
+  let verdict=isImpulse?'Wow-let বলছে: এখন কিনবেন না। ২৪ ঘণ্টা লক করুন।':'Wow-let বলছে: এটা ছোট খরচ, কিনতে পারেন, কিন্তু শখের বাক্স থেকে।';
+  document.getElementById('impulseOut').innerHTML=`
+  <div class="box redBox"><b>${verdict}</b></div>
+  <div class="box yellowBox"><b>আসল দাম কত জানেন?</b><br>${item} = ${fmt(price)} টাকা না, এটা = <b>${hours} ঘণ্টা আপনার জীবন</b>।</div>
+  <div class="box darkBox"><b>ভবিষ্যতে কত টাকা হারাবেন? (${DATA.futureYear} সাল)</b><br>আজকে ${fmt(price)} টাকা খরচ করলে, ${DATA.futureYear} সালে (${diff} বছর পর) আপনি হারাবেন <b>${fmt(futureLoss)} টাকা</b>।</div>
+  <div class="box blueBox"><b>২৪ ঘণ্টা লক কী?</b><br>কাল এই সময়ে যদি এখনো মনে হয় দরকার, তাহলে কিনবেন। ১০ জনের মধ্যে ৯ জনের কাল আর মনে থাকে না।</div>
+  <button class="red" onclick="lockItem('${item}',${price})">২৪ ঘণ্টা লক করুন</button>
+  <button class="glassBtn" onclick="buyAnyway(${price})">না, আমি এখনই কিনবো - খরচ হিসাবে ধরুন</button>`;
+}
+function lockItem(item,price){
+  LOCKED={item,price,time:Date.now(),until:Date.now()+24*60*60*1000};
+  localStorage.setItem('wowlet_lock',JSON.stringify(LOCKED));
+  alert('২৪ ঘণ্টার জন্য লক হলো। কাল দেখবেন, মন বদলে গেছে।');
+  showPage('lock', document.querySelectorAll('.bottom div')[3]);
+}
+function renderLock(){
+  if(!LOCKED){ document.getElementById('lockOut').innerHTML='<p class="small">কোনো লক নাই। এটা ভালো খবর।</p>'; document.getElementById('lossOut').innerHTML=''; return; }
+  let leftH=Math.max(0, Math.ceil((LOCKED.until-Date.now())/3600000));
+  let futureLoss=getFutureLoss(LOCKED.price);
+  document.getElementById('lockOut').innerHTML=`<div class="box yellowBox"><b>${LOCKED.item}</b> - ${fmt(LOCKED.price)} টাকা<br>বাকি আছে: ${leftH} ঘণ্টা লক<br>যদি না কিনেন, আপনি বাঁচালেন ${fmt(LOCKED.price)} টাকা আজকে, ${DATA.futureYear} সালে ${fmt(futureLoss)} টাকা।</div>`;
+  document.getElementById('lossOut').innerHTML=`যদি প্রতি মাসে ১টা জিনিস না কিনে বাঁচান ${fmt(LOCKED.price)} টাকা, ১ বছরে বাঁচবে ${fmt(LOCKED.price*12)} টাকা।`;
+}
+function cancelLock(){
+  if(!LOCKED) return;
+  WINS.unshift({item:LOCKED.item,price:LOCKED.price,date:new Date().toLocaleDateString('bn-BD'),year:DATA.futureYear});
+  localStorage.setItem('wowlet_wins',JSON.stringify(WINS));
+  DATA.saved=(DATA.saved||0)+LOCKED.price;
+  localStorage.setItem('wowlet',JSON.stringify(DATA));
+  localStorage.removeItem('wowlet_lock'); LOCKED=null;
+  updateTop();
+  alert('Wow! জিতে গেছেন। আপনি '+fmt(WINS[0].price)+' টাকা বাঁচালেন। Wow Score বেড়ে গেছে।');
+  renderLock(); renderHist();
+}
+function buyAnyway(price){
+  DATA.spentToday=(DATA.spentToday||0)+price;
+  localStorage.setItem('wowlet',JSON.stringify(DATA));
+  alert('ঠিক আছে, খরচ হিসাবে ধরা হলো। কিন্তু মনে রাখবেন - এটা শখের বাক্স থেকে গেলো।');
+  renderDash();
+}
+function saveIfThen(){
+  let t=document.getElementById('ifThen').value.trim();
+  if(!t) t='যদি টাকা পাই, তাহলে প্রথমে ১,০০০ টাকা ভবিষ্যৎ বাক্সে রাখবো';
+  localStorage.setItem('wowlet_ifthen', t);
+  document.getElementById('ifThenOut').innerHTML=`<div class="box greenBox"><b>আপনার লক করা নিয়ম:</b><br>${t}</div>`;
+}
+function renderHist(){
+  if(!WINS.length){ document.getElementById('histOut').innerHTML='এখনো কোনো Wow মোমেন্ট নাই। একটা জিনিস লক করে দেখুন।'; document.getElementById('reportOut').innerHTML=''; return; }
+  document.getElementById('histOut').innerHTML=WINS.map(w=>`<div style="border-bottom:.5px solid rgba(0,0,0,.08);padding:8px 0"><b>${w.item}</b> - বাঁচালেন ${fmt(w.price)} টাকা - Wow!<br><span class="small">${w.date} • টার্গেট সাল: ${w.year||DATA.futureYear}</span></div>`).join('');
+  let total=WINS.reduce((a,b)=>a+b.price,0);
+  document.getElementById('reportOut').innerHTML=`<div class="box darkBox" style="margin-top:12px"><b>মাসিক রিপোর্ট</b><br>মোট বাঁচানো: ${fmt(total)} টাকা<br>মোট Wow পয়েন্ট: ${WINS.length}<br>Wow Score: ${getWowScore()} / 100<br>সেরা জয়: ${WINS.reduce((a,b)=>a.price>b.price?a:b).item} - ${fmt(Math.max(...WINS.map(w=>w.price)))} টাকা</div>`;
+}
+function clearHist(){ WINS=[]; localStorage.removeItem('wowlet_wins'); renderHist(); updateTop(); }
+renderStep(); renderYearSegmented();
+</script>
+</body>
+</html>
